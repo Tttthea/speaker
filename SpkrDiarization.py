@@ -49,18 +49,22 @@ def exportAudio(path):
     os.makedirs(test_dir)
     sp_tp_list = spkrTimestamp(path)
     start_time = time.time()
+    count = 0
     for index, speaker in enumerate(sp_tp_list):
         sec = sp_tp_list[speaker]
         slice_dir = test_dir + f'{speaker}_'
         for i, val in enumerate(sec):
             t1 = sec[i][0] * 1000
             t2 = sec[i][1] * 1000
-            aud_outfn = slice_dir + str(t1).split('.')[0] + '_' + str(t2).split('.')[0] + '_audio.wav'
-            new = AudioSegment.from_wav(path)
-            new = new[t1:t2]
-            new.export(aud_outfn, format='wav')
+            if t2 - t1 > 1000:
+                aud_outfn = slice_dir + str(t1).split('.')[0] + '_' + str(t2).split('.')[0] + '_audio.wav'
+                new = AudioSegment.from_wav(path)
+                new = new[t1:t2]
+                new.export(aud_outfn, format='wav')
+                count += 1
     end_time = time.time()
     print(f'exporting using {end_time - start_time:{.4}}s')
+    print(f'all {count} audio clips')
     return test_dir
 
 
