@@ -1,4 +1,6 @@
 import os
+
+import pandas as pd
 from pyannote.audio import Pipeline
 from pydub import AudioSegment
 import time
@@ -27,3 +29,13 @@ def to_wav(path):
     print(f'using {end_time-start_time:{.4}}s')
     print(f'converted wav file: {converted}')
     return converted
+
+def out(start, end, speaker, predicted, clip_path):
+    d = {}
+    if predicted == 1:
+        print(f'[{start}: {end}], {speaker}: male, {clip_path}')
+        d = {'start': start, 'end': end, 'speaker': speaker, 'gender': 'male', 'path': clip_path}
+    elif predicted == 0:
+        print(f'[{start}: {end}], {speaker}: female, {clip_path}')
+        d = {'start': start, 'end': end, 'speaker': speaker, 'gender': 'female', 'path': clip_path}
+    return d
