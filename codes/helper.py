@@ -12,7 +12,7 @@ def read_path(path):
 def pipeDiarization(path):
     """access pyannote pipeline"""
     start_time = time.time()
-    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization",
+    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@develop",
                                         use_auth_token="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")
     diarization = pipeline(path)
     end_time = time.time()
